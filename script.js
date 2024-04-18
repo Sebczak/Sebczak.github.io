@@ -1,14 +1,14 @@
 $(document).ready(function() {
 
-    var apiRoot = 'http://localhost:8080/v1/tasks';
-    var datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
-    var tasksContainer = $('[data-tasks-container]');
+    let apiRoot = 'http://localhost:8080/v1/tasks';
+    let datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
+    let tasksContainer = $('[data-tasks-container]');
 
     // init
     getAllTasks();
 
     function createElement(data) {
-        var element = $(datatableRowTemplate).clone();
+        let element = $(datatableRowTemplate).clone();
 
         element.attr('data-task-id', data.id);
         element.find('[data-task-name-section] [data-task-name-paragraph]').text(data.title);
@@ -28,24 +28,20 @@ $(document).ready(function() {
     }
 
     function getAllTasks() {
-        var requestUrl = apiRoot;
-
         $.ajax({
-            url: requestUrl,
+            url: apiRoot,
             method: 'GET',
             success: handleDatatableRender
         });
     }
 
     function handleTaskUpdateRequest() {
-        var parentEl = $(this).parent().parent();
-        var taskId = parentEl.attr('data-task-id');
-        var taskTitle = parentEl.find('[data-task-name-input]').val();
-        var taskContent = parentEl.find('[data-task-content-input]').val();
-        var requestUrl = apiRoot;
-
+        let parentEl = $(this).parent().parent();
+        let taskId = parentEl.attr('data-task-id');
+        let taskTitle = parentEl.find('[data-task-name-input]').val();
+        let taskContent = parentEl.find('[data-task-content-input]').val();
         $.ajax({
-            url: requestUrl,
+            url: apiRoot,
             method: "PUT",
             processData: false,
             contentType: "application/json; charset=utf-8",
@@ -64,12 +60,10 @@ $(document).ready(function() {
     }
 
     function handleTaskDeleteRequest() {
-        var parentEl = $(this).parent().parent();
-        var taskId = parentEl.attr('data-task-id');
-        var requestUrl = apiRoot;
-
+        let parentEl = $(this).parent().parent();
+        let taskId = parentEl.attr('data-task-id');
         $.ajax({
-            url: requestUrl + '/' + taskId,
+            url: apiRoot + '/' + taskId,
             method: 'DELETE',
             success: function() {
                 parentEl.slideUp(400, function() { parentEl.remove(); });
@@ -80,13 +74,11 @@ $(document).ready(function() {
     function handleTaskSubmitRequest(event) {
         event.preventDefault();
 
-        var taskTitle = $(this).find('[name="title"]').val();
-        var taskContent = $(this).find('[name="content"]').val();
-
-        var requestUrl = apiRoot;
+        let taskTitle = $(this).find('[name="title"]').val();
+        let taskContent = $(this).find('[name="content"]').val();
 
         $.ajax({
-            url: requestUrl,
+            url: apiRoot,
             method: 'POST',
             processData: false,
             contentType: "application/json; charset=utf-8",
@@ -94,21 +86,16 @@ $(document).ready(function() {
             data: JSON.stringify({
                 title: taskTitle,
                 content: taskContent
-            }),
-            complete: function(data) {
-                if(data.status === 200) {
-                    getAllTasks();
-                }
-            }
+            })
         });
     }
 
     function toggleEditingState() {
-        var parentEl = $(this).parent().parent();
+        let parentEl = $(this).parent().parent();
         parentEl.toggleClass('datatable__row--editing');
 
-        var taskTitle = parentEl.find('[data-task-name-paragraph]').text();
-        var taskContent = parentEl.find('[data-task-content-paragraph]').text();
+        let taskTitle = parentEl.find('[data-task-name-paragraph]').text();
+        let taskContent = parentEl.find('[data-task-content-paragraph]').text();
 
         parentEl.find('[data-task-name-input]').val(taskTitle);
         parentEl.find('[data-task-content-input]').val(taskContent);
