@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-    let apiRoot = 'http://localhost:8080/v1/tasks';
+    let apiRoot = 'https://0bb8b18d-8341-43ff-a1b8-77999a4f2629-00-39d7bqvc9o2z2.spock.replit.dev:8080/v1/tasks';
     let datatableRowTemplate = $('[data-datatable-row-template]').children()[0];
     let tasksContainer = $('[data-tasks-container]');
 
